@@ -1009,64 +1009,50 @@ void unit_strdup()
 //Can't think of a nice way to unit test strlcat. :(
 //TODO: ADD FT_STRLCAT
 
+typedef void (*unit_test_cb)(void);
+
+typedef struct s_unit_test {
+    unit_test_cb callback;
+    char *name;
+} t_unit_test;
+
+static const t_unit_test unit_tests[] = {
+    { .name = "ft_atoi",    .callback = unit_atoi },
+    { .name = "ft_bzero",   .callback = unit_bzero },
+    { .name = "ft_isalnum", .callback = unit_isalnum },
+    { .name = "ft_isalpha", .callback = unit_isalpha },
+    { .name = "ft_isascii", .callback = unit_isascii },
+    { .name = "ft_isdigit", .callback = unit_isdigit },
+    { .name = "ft_isprint", .callback = unit_isprint },
+    { .name = "ft_memchr",  .callback = unit_memchr },
+    { .name = "ft_memcmp",  .callback = unit_memcmp },
+    { .name = "ft_memcpy",  .callback = unit_memcpy },
+    { .name = "ft_memmove", .callback = unit_memmove },
+    { .name = "ft_memset",  .callback = unit_memset },
+    { .name = "ft_strchr",  .callback = unit_strchr },
+    { .name = "ft_strjoin", .callback = unit_strjoin },
+    { .name = "ft_strlcpy", .callback = unit_strlcpy },
+    { .name = "ft_strlen",  .callback = unit_strlen },
+    { .name = "ft_strncmp", .callback = unit_strncmp },
+    { .name = "ft_strnstr", .callback = unit_strnstr },
+    { .name = "ft_strrchr", .callback = unit_strrchr },
+    { .name = "ft_strtrim", .callback = unit_strtrim },
+    { .name = "ft_substr",  .callback = unit_substr },
+    { .name = "ft_tolower", .callback = unit_tolower },
+    { .name = "ft_toupper", .callback = unit_toupper },
+    { .name = "ft_split",   .callback = unit_split },
+    { .name = "ft_itoa",    .callback = unit_itoa },
+};
 
 int main(void)
 {
-    printf("Starting Test for ft_atoi\n");
-    unit_atoi();
-    printf("\n\nStarting Test for ft_bzero\n");
-    unit_bzero();
-    printf("\n\nStarting Test for ft_isalnum\n");
-    unit_isalnum();
-    printf("\n\nStarting Test for ft_isalpha\n");
-    unit_isalpha();
-    printf("\n\nStarting Test for ft_isascii\n");
-    unit_isascii();
-    printf("\n\nStarting Test for ft_isdigit\n");
-    unit_isdigit();
-    printf("\n\nStarting Test for ft_isprint\n");
-    unit_isprint();
-    printf("\n\nStarting Test for ft_memchr\n");
-    unit_memchr();
-    printf("\n\nStarting Test for ft_memcmp\n");
-    unit_memcmp();
-    printf("\n\nStarting Test for ft_memcpy\n");
-    unit_memcpy();
-    printf("\n\nStarting Test for ft_memmove\n");
-    unit_memmove();
-    printf("\n\nStarting Test for ft_memset\n");
-    unit_memset();
-    printf("\n\nStarting Test for ft_strchr\n");
-    unit_strchr();
-    printf("\n\nStarting Test for ft_strjoin\n");
-    unit_strjoin();
-    printf("\n\nStarting Test for ft_strlcpy\n");
-    unit_strlcpy();
-    printf("\n\nStarting Test for ft_strlen\n");
-    unit_strlen();
-    printf("\n\nStarting Test for ft_strncmp\n");
-    unit_strncmp();
-    printf("\n\nStarting Test for ft_strnstr\n");
-    unit_strnstr();
-    printf("\n\nStarting Test for ft_strrchr\n");
-    unit_strrchr();
-    printf("\n\nStarting Test for ft_strtrim\n");
-    unit_strtrim();
-    printf("\n\nStarting Test for ft_substr\n");
-    unit_substr();
-    printf("\n\nStarting Test for ft_tolower\n");
-    unit_tolower();
-    printf("\n\nStarting Test for ft_toupper\n");
-    unit_toupper();
-    printf("\n\nStarting Test for ft_split\n");
-    unit_split();
-    printf("\n\nStarting Test for ft_itoa\n");
-    unit_itoa();
-    printf("\n\nStarting Test for ft_calloc\n");
-    unit_calloc();
-    printf("\n\nStrating Test for ft_strdup\n");
-    unit_strdup();
-
-
+    int test_index = 0;
+    int tests_count = sizeof(unit_tests) / sizeof(t_unit_test);
+    
+    while (test_index < tests_count) {
+        printf("Starting test: %s\n", unit_tests[test_index].name);
+        unit_tests[test_index].callback();
+        ++test_index;
+    }
     printf("\n\nAll Unit tests passed!\n");
 }
