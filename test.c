@@ -335,7 +335,11 @@ void unit_memmove() {
         assert(strcmp(new_dest, expected_results[i]) == 0);
         printf("Test2 Case %zu passed!\n", i + 1);
     }
-    
+    char fuck[] = "Hello, ";
+    const char *fuck2 = "Hello, World!";
+    ft_memmove(fuck, fuck2, strlen(fuck2) + 1);
+    assert(strcmp(fuck, "Hello, World!") == 0);
+
     printf("All tests passed!\n");
 }
 
@@ -726,7 +730,7 @@ void unit_strtrim()
         "   abcdefgh   ",
         "   123   ",
         "xyz",
-        "   Test   ",
+        "   Test",
         "The quick brown fox   "
     };
 
@@ -744,16 +748,16 @@ void unit_strtrim()
     };
 
     const char *expected_results[] = {
-        "Hello,World!",
-        "Thisisatest",
-        "24",
-        "   bdef   ",
-        "   acac   ",
-        "   abcdg   ",
+        "Hello, World!",
+        "This is a test",
+        "234",
+        "   abcdefg   ",
+        "   abcdabcd   ",
+        "   abcdefgh   ",
         "1",
         "xy",
         "st",
-        "The quick brwn fx   "
+        "The quick brown fox   "
     };
 
     size_t num_tests = sizeof(test_strings) / sizeof(test_strings[0]);
@@ -958,6 +962,50 @@ void unit_itoa() {
     printf("All tests passed!\n");
 }
 
+void unit_calloc()
+{
+    printf("Testing calloc\n");
+    void* ptr = ft_calloc(200, sizeof(char));
+    for(int i = 0; i< 200; i++)
+    {
+        assert(((char*)ptr)[i] == 0);
+    }
+    printf("All tests passed !\n");
+}
+
+void unit_strdup()
+{
+    const char* test_numbers[] = {
+        "12345",
+        "testing a longer string if that works",
+        "",
+        "42 ",
+    };
+
+    const char* expected_results[] = {
+        "12345",
+        "testing a longer string if that works",
+        "",
+        "42 ",
+    };
+
+    int num_tests = sizeof(test_numbers) / sizeof(test_numbers[0]);
+    for(int i = 0; i < num_tests; i++)
+    {
+        char* result = ft_strdup(test_numbers[i]);
+        printf("Test Case %zu: Convert %d to string -> Expected: \"%s\", Actual: \"%s\"\n", i + 1, test_numbers[i], expected_results[i], result);
+        if(expected_results[i] == NULL)
+            assert(result == expected_results[i]);
+        else
+            assert(strcmp(result, expected_results[i]) == 0);
+        if(expected_results[i] != NULL)
+            free(result);
+        printf("Test Case %zu passed!\n", i + 1);
+    }
+    printf("All tests passed !\n");
+}
+
+
 //Can't think of a nice way to unit test strlcat. :(
 //TODO: ADD FT_STRLCAT
 
@@ -1014,6 +1062,10 @@ int main(void)
     unit_split();
     printf("\n\nStarting Test for ft_itoa\n");
     unit_itoa();
+    printf("\n\nStarting Test for ft_calloc\n");
+    unit_calloc();
+    printf("\n\nStrating Test for ft_strdup\n");
+    unit_strdup();
 
 
     printf("\n\nAll Unit tests passed!\n");
